@@ -20,6 +20,7 @@ self_blood_len = 242
 window_size = (220,80,604,424)#384,344  192,172 96,86
 blood_window = (blood_weight_begin,blood_heigh_begin,blood_weight_begin+self_blood_len,blood_heigh_begin+blood_heigh_len)
 
+
 def self_blood_count(self_gray):
     self_blood = 0
     for self_bd_num in self_gray[blood_heigh_len]:

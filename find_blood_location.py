@@ -12,14 +12,23 @@ import time
 import grabscreen
 import os
 
+blood_heigh_begin = 70
+blood_weight_begin = 53
+
+blood_heigh_len=370
+self_blood_len = 242
+window_size = (220,80,604,424)#384,344  192,172 96,86
+blood_window = (blood_weight_begin,blood_heigh_begin,blood_weight_begin+self_blood_len,blood_heigh_begin+blood_heigh_len)
+
 def self_blood_count(self_gray):
     self_blood = 0
-    for self_bd_num in self_gray[469]:
+    for self_bd_num in self_gray[blood_heigh_len]:
         # self blood gray pixel 80~98
         # 血量灰度值80~98
-        print(self_bd_num)
+        #print(self_bd_num)
         if self_bd_num > 90 and self_bd_num < 98:
             self_blood += 1
+    print(self_blood)
     return self_blood
 
 def boss_blood_count(boss_gray):
@@ -35,11 +44,6 @@ def boss_blood_count(boss_gray):
 wait_time = 5
 L_t = 3
 
-window_size = (320,104,704,448)#384,344  192,172 96,86
-blood_window = (60,91,280,562)
-
-
-
 for i in list(range(wait_time))[::-1]:
     print(i+1)
     time.sleep(1)
@@ -47,7 +51,6 @@ for i in list(range(wait_time))[::-1]:
 last_time = time.time()
 while(True):
 
-    #printscreen = np.array(ImageGrab.grab(bbox=(window_size)))
     #printscreen_numpy = np.array(printscreen_pil.getdata(),dtype='uint8')\
     #.reshape((printscreen_pil.size[1],printscreen_pil.size[0],3))
     #pil格式耗时太长
@@ -58,7 +61,9 @@ while(True):
     boss_blood = boss_blood_count(screen_gray)
     
     cv2.imshow('window1',screen_gray)
-    #cv2.imshow('window3',printscreen)
+
+    printscreen = np.array(ImageGrab.grab(bbox=(window_size)))
+    cv2.imshow('window3',printscreen)
     #cv2.imshow('window2',screen_reshape)
     
     #测试时间用

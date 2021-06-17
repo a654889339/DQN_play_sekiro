@@ -4,7 +4,7 @@ Created on Wed Apr  8 10:37:50 2020
 
 @author: pang
 """
-
+#bilibili.com/read/cv9217614
 import ctypes
 import time
 
@@ -35,7 +35,37 @@ down = 0xD0
 left = 0xCB
 right = 0xCD
 
+number6=0x4D
+number7=0x47
+
 esc = 0x01
+ctrl=0x1D
+
+blood_heigh_begin = 70
+blood_weight_begin = 53
+
+blood_heigh_len=370
+self_blood_len = 242
+window_size = (220,80,604,424)#384,344  192,172 96,86
+blood_window = (blood_weight_begin,blood_heigh_begin,blood_weight_begin+self_blood_len,blood_heigh_begin+blood_heigh_len)
+
+def self_blood_count(self_gray):
+    self_blood = 0
+    for self_bd_num in self_gray[blood_heigh_len]:
+        # self blood gray pixel 80~98
+        # 血量灰度值80~98
+        if self_bd_num > 90 and self_bd_num < 98:
+            self_blood += 1
+    return self_blood
+
+def boss_blood_count(boss_gray):
+    boss_blood = 0
+    for boss_bd_num in boss_gray[0]:
+    # boss blood gray pixel 65~75
+    # 血量灰度值65~75
+        if boss_bd_num > 65 and boss_bd_num < 75:
+            boss_blood += 1
+    return boss_blood
 
 # C struct redefinitions 
 PUL = ctypes.POINTER(ctypes.c_ulong)
@@ -134,7 +164,7 @@ def lock_vision():
     time.sleep(0.3)
     ReleaseKey(V)
     time.sleep(0.1)
-    
+
 def go_forward_QL(t):
     PressKey(W)
     time.sleep(t)
@@ -177,6 +207,19 @@ def dead():
     time.sleep(0.5)
     ReleaseKey(M)
 
+def Cheat():
+    print("屑一郎")
+
+    PressKey(ctrl)
+    PressKey(number7)
+    time.sleep(0.5)
+    ReleaseKey(number7)
+
+    PressKey(number6)
+    time.sleep(0.5)
+    ReleaseKey(number6)
+    ReleaseKey(ctrl)
+
 if __name__ == '__main__':
     time.sleep(5)
     time1 = time.time()
@@ -184,18 +227,12 @@ if __name__ == '__main__':
         if abs(time.time()-time1) > 5:
             break
         else:
-            PressKey(M)
-            time.sleep(0.1)
-            ReleaseKey(M)
-            time.sleep(0.2)
-        
-    
-    PressKey(W)
-    time.sleep(0.4)
-    ReleaseKey(W)
-    time.sleep(1)
-    
-    PressKey(J)
-    time.sleep(0.1)
-    ReleaseKey(J)
-    time.sleep(1)
+            defense()
+
+    Cheat()
+
+    lock_vision()
+
+    F_go()
+
+    jump()

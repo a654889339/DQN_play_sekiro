@@ -46,26 +46,44 @@ blood_weight_begin = 53
 
 blood_heigh_len=370
 self_blood_len = 242
-window_size = (220,80,604,424)#384,344  192,172 96,86
-blood_window = (blood_weight_begin,blood_heigh_begin,blood_weight_begin+self_blood_len,blood_heigh_begin+blood_heigh_len)
+xieyilang_blood_len = 203
 
+window_size = (220,50,604,394)#384,344  192,172 96,86
+blood_window = (blood_weight_begin,blood_heigh_begin,blood_weight_begin+self_blood_len,blood_heigh_begin+blood_heigh_len)
 def self_blood_count(self_gray):
-    self_blood = 0
-    for self_bd_num in self_gray[blood_heigh_len]:
-        # self blood gray pixel 80~98
-        # 血量灰度值80~98
-        if self_bd_num > 90 and self_bd_num < 98:
-            self_blood += 1
-    return self_blood
+    blood = 0
+    #print("self_gray type:")
+    #print(type(self_gray))
+    #print(len(self_gray))
+    #print(len(self_gray[0]))
+    for i in range(len(self_gray[0])):
+        bd_num=self_gray[blood_heigh_len-2][i]
+        #print("bd_num type:")
+        #print(type(bd_num))
+        #print(len(bd_num))
+        if bd_num[0] > 120 and bd_num[0] < 130:
+            if bd_num[1] > 55 and bd_num[1] < 65:
+                if bd_num[2] >  35 and bd_num[2] < 50:
+                    blood += 1
+    return blood
 
 def boss_blood_count(boss_gray):
-    boss_blood = 0
-    for boss_bd_num in boss_gray[0]:
-    # boss blood gray pixel 65~75
-    # 血量灰度值65~75
-        if boss_bd_num > 65 and boss_bd_num < 75:
-            boss_blood += 1
-    return boss_blood
+    blood = 0
+    #print("boss_gray type:")
+    #print(type(boss_gray))
+    #print(len(boss_gray))
+    #print(len(boss_gray[0]))
+    for i in range(xieyilang_blood_len):
+        bd_num=boss_gray[3][i]
+        #print("bd_num type:")
+        #print(type(bd_num))
+        #print(len(bd_num))
+        if bd_num[0] > 80 and bd_num[0] < 110:
+            if bd_num[1] > 25 and bd_num[1] < 50:
+                if bd_num[2] >  25 and bd_num[2] < 50:
+                    blood += 1
+
+    return blood
 
 # C struct redefinitions 
 PUL = ctypes.POINTER(ctypes.c_ulong)
@@ -214,7 +232,9 @@ def Cheat():
     PressKey(number7)
     time.sleep(0.5)
     ReleaseKey(number7)
+    ReleaseKey(ctrl)
 
+    PressKey(ctrl)
     PressKey(number6)
     time.sleep(0.5)
     ReleaseKey(number6)

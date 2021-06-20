@@ -7,6 +7,7 @@ Created on Wed Jan 27 21:10:06 2021
 
 import numpy as np
 from grabscreen import grab_screen
+from PIL import ImageGrab
 import cv2
 import time
 import directkeys
@@ -136,6 +137,7 @@ target_step = 0
 # used to update target Q network
 paused = True
 # used to stop training
+#directkeys.Cheat()
 
 if __name__ == '__main__':
     agent = DQN(WIDTH, HEIGHT, action_size, DQN_model_path, DQN_log_path)
@@ -148,7 +150,7 @@ if __name__ == '__main__':
     for episode in range(EPISODES):
         screen_gray = cv2.cvtColor(grab_screen(directkeys.window_size),cv2.COLOR_BGR2GRAY)
         # collect station gray graph
-        blood_window_gray = cv2.cvtColor(grab_screen(directkeys.blood_window),cv2.COLOR_BGR2GRAY)
+        blood_window_gray = np.array(ImageGrab.grab(bbox=(directkeys.blood_window)))
         # collect blood gray graph for count self and boss blood
         station = cv2.resize(screen_gray,(WIDTH,HEIGHT))
         # change graph to WIDTH * HEIGHT for station input
@@ -174,7 +176,7 @@ if __name__ == '__main__':
             # take station then the station change
             screen_gray = cv2.cvtColor(grab_screen(directkeys.window_size),cv2.COLOR_BGR2GRAY)
             # collect station gray graph
-            blood_window_gray = cv2.cvtColor(grab_screen(directkeys.blood_window),cv2.COLOR_BGR2GRAY)
+            blood_window_gray = np.array(ImageGrab.grab(bbox=(directkeys.blood_window)))
             # collect blood gray graph for count self and boss blood
             next_station = cv2.resize(screen_gray,(WIDTH,HEIGHT))
             next_station = np.array(next_station).reshape(-1,HEIGHT,WIDTH,1)[0]

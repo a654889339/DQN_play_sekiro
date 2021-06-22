@@ -81,7 +81,7 @@ def action_judge(boss_blood, next_boss_blood, self_blood, next_self_blood, stop,
             stop = 0
             emergence_break = 100
             return reward, done, stop, emergence_break
-    elif next_boss_blood - boss_blood > 15:   #boss dead
+    elif next_boss_blood - boss_blood > 100:   #boss dead
         if emergence_break < 2:
             reward = 20
             done = 0
